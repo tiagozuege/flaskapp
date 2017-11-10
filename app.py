@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request
-from dataset import getData
+from dataset import getData, getArtigos
 
 data = getData()
-
+articles = getArtigos()
 
 app = Flask(__name__)
 
@@ -15,6 +15,12 @@ def check_paramaters(parameters):
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/artigos', methods=['POST', 'GET'])
+def artigos():
+    if request.method == 'POST':
+        print('Here was a post')
+    return render_template('artigos.html', artigos = articles)
 
 @app.route('/teste', methods=['POST', 'GET'])
 def teste():
