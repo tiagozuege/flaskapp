@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+
+    <ul class="list-group">
+        {% for d in data %}
+        <li class="list-group-item"><a href="#">{{d.desc}}</a></li>
+        {% endfor %}
+    </ul>
+
+
+    <form action="/teste" method="post">
+        <div class="input-group input-group-lg">
+            <input name="teste" type="text" class="form-control" placeholder="Make a post" required>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+
+
+{% endblock %}
