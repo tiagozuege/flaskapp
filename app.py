@@ -22,6 +22,10 @@ def artigos():
         print('Here was a post')
     return render_template('artigos.html', artigos = articles)
 
+@app.route('/artigo/<string:id>')
+def artigo(id):
+    return render_template('artigo.html', id=id)
+
 @app.route('/teste', methods=['POST', 'GET'])
 def teste():
     if request.method == 'POST':
