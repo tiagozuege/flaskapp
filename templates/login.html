@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+    
+    <form action="/login" method="post" class="form-inline" role="form">
+        <legend>Faça o login para ter acesso:</legend>
+        <div class="form-group">
+            <input name="usr" type="text" class="form-control" placeholder="Usuário" required>
+            <input name="pwd" type="password" class="form-control" placeholder="Senha" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Acessar</button>
+    </form>
+    
+
+{% endblock %}
