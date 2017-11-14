@@ -38,10 +38,12 @@ def index():
 def login():
     error = None
     if request.method == 'POST':
-        ok = checkLogin(request.form['usr'], request.form['pwd'])
-        if ok:
+        login_ok = checkLogin(request.form['usr'], request.form['pwd'])
+        if login_ok:
             return redirect('/')
-    return render_template('login.html')
+        else:
+            error = "Login recusado. Tente novamente, ou entre em contato com o administrador."
+    return render_template('login.html', error=error)
 
 
 @app.route('/artigos', methods=['POST', 'GET'])
