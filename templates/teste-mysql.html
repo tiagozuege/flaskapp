@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+    <h1>Data returned from MySQL db</h1>
+
+    <ul class="list-group">
+        {% for d in data %}
+        <li class="list-group-item"><a href="#">{{d.nome}}</a></li>
+        {% endfor %}
+    </ul>
+
+
+{% endblock %}
