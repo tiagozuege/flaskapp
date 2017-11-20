@@ -72,7 +72,7 @@ def artigos():
 def artigo(id):
     #article = fetchArticles(int(id))
     article = fetchArticles(id)
-    print(article)
+    #print(article)
     return render_template('artigo.html', data=article)
 
 

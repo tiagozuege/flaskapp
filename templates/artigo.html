@@ -2,12 +2,20 @@
 
 {% block body %}
 
-    {% for i in data %}
-    <h2>Artigo: {{i.id}}</h2>
-    <h2>{{i.titulo}}</h2>
+    <div class="col-sm-8 blog-main">
 
-    <p>{{i.texto}}</p>
-    {% endfor %}
+        <div class="blog-post">
+            {% for i in data %}
+
+            <h4>Artigo: {{i.id}}</h4>
+            <h2 class="blog-post-title">{{i.titulo}}</h2>
+            <p class="blog-post-meta">Data, por Autor</p>
+            <p>{{i.texto}}</p>
+
+            {% endfor %}
+        </div>
+
+    </div>
 
 
     
