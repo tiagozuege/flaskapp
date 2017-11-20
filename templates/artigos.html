@@ -3,8 +3,8 @@
 {% block body %}
 
     <ul class="list-group">
-        {% for a in artigos %}
-        <li class="list-group-item"><a href="/artigo/{{a.id}}">{{a.titulo}}</a></li>
+        {% for i in data %}
+        <li class="list-group-item"><a href="/artigo/{{i.id}}">{{i.titulo}}</a></li>
         {% endfor %}
     </ul>
 

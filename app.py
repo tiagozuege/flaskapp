@@ -3,7 +3,7 @@ from flask_mysqldb import MySQL
 from dataset import getData, getArtigos
 
 data = getData()
-articles = getArtigos()
+#articles = getArtigos()
 
 app = Flask(__name__)
 
@@ -63,13 +63,17 @@ def login():
 def artigos():
     if request.method == 'POST':
         print('Here was a post')
-    return render_template('artigos.html', artigos = articles)
+    articles = fetchArticles('0')
+    return render_template('artigos.html', data=articles)
 
 
 
 @app.route('/artigo/<string:id>')
 def artigo(id):
-    return render_template('artigo.html', id=id)
+    #article = fetchArticles(int(id))
+    article = fetchArticles(id)
+    print(article)
+    return render_template('artigo.html', data=article)
 
 
 # Teste para verificar parametros enviados por POST
@@ -79,18 +83,28 @@ def teste():
         print('Here was a post')
         print(request.form['teste'])                    #Imprime os dados que vieram pelo POST
         check_paramaters(request.form['teste'])
-    return render_template('teste.html', data = data)
+    return render_template('teste.html', data=data)
 
 # Teste Mysql
 
 @app.route('/teste-mysql')
 def teste2():
-    l = []
     cur = mysql.connection.cursor()
     cur.execute('''SELECT * FROM usuarios''')
     data = cur.fetchall()
+    cur.close()
     #return data
     return render_template('teste-mysql.html', data=data)
+
+def fetchArticles(id):
+    cur = mysql.connection.cursor()
+    if id == '0':
+        cur.execute('''SELECT * FROM artigos''')
+    else:
+        cur.execute('''SELECT * FROM artigos WHERE id = %s''', id)
+    data = cur.fetchall()
+    cur.close()
+    return data
 
 
 # Exemplo de insert
@@ -102,4 +116,5 @@ mysql.connection.commit()
 
 cur.close()
 '''
+
 

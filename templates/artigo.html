@@ -2,7 +2,13 @@
 
 {% block body %}
 
-    <h2>Artigo: {{id}}</h2>
+    {% for i in data %}
+    <h2>Artigo: {{i.id}}</h2>
+    <h2>{{i.titulo}}</h2>
+
+    <p>{{i.texto}}</p>
+    {% endfor %}
+
 
     
     <a class="btn btn-default" href="/artigos" role="button">Voltar</a>
