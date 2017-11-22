@@ -1,8 +1,9 @@
 from flask import Flask, redirect, render_template, request
 from flask_mysqldb import MySQL
-from dataset import getData, getArtigos
+#from dataset import getData, getArtigos
+import time 
 
-data = getData()
+# data = getData()
 #articles = getArtigos()
 
 app = Flask(__name__)
@@ -62,7 +63,8 @@ def login():
 @app.route('/artigos', methods=['POST', 'GET'])
 def artigos():
     if request.method == 'POST':
-        print('Here was a post')
+        print('POST comming from /artigos')
+        insertArticles(request.form['titulo'], request.form['texto'])
     articles = fetchArticles('0')
     return render_template('artigos.html', data=articles)
 
@@ -106,15 +108,11 @@ def fetchArticles(id):
     cur.close()
     return data
 
-
-# Exemplo de insert
-'''
-cur = mysql.connection.cursor()
-cur.execute('INSERT INTO... VALUES (%s, %s, %s)', (data1, d2, d3))
-
-mysql.connection.commit()
-
-cur.close()
-'''
-
-
+def insertArticles(title, text):
+    current_date = time.strftime('%x')
+    cur = mysql.connection.cursor()
+    sql_str = "INSERT INTO artigos VALUES ( %i, '%s', '%s', %i, '%s')"
+    params = (0, title, text, 1, '2017-11-22')
+    cur.execute(sql_str % params)
+    mysql.connection.commit()
+    cur.close()

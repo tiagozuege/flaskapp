@@ -1,21 +1,19 @@
 {% extends 'layout.html' %}
 
+
 {% block body %}
 
-    <div class="col-sm-8 blog-main">
 
-        <div class="blog-post">
-            {% for i in data %}
-
-            <h4>Artigo: {{i.id}}</h4>
-            <h2 class="blog-post-title">{{i.titulo}}</h2>
-            <p class="blog-post-meta">Data, por Autor</p>
-            <p>{{i.texto}}</p>
-
-            {% endfor %}
-        </div>
-
+    {% for i in data %}
+    
+    
+    <div class="page-header">
+      <h1>{{i.titulo}}<br><small> tags: </small></h1>
     </div>
+    <h4>{{i.data_criacao}}, por Autor</h4>  <!--Colocar aqui o usuario que criou o artigo-->
+    <p>{{i.texto}}</p>
+
+    {% endfor %}
 
 
     
@@ -23,5 +21,4 @@
     
     <!-- <a class="btn btn-large btn-block btn-default" href="/artigos" role="button">Voltar</a> -->
     
-
 {% endblock %}
