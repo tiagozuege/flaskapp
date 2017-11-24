@@ -69,13 +69,22 @@ def artigos():
     return render_template('artigos.html', data=articles)
 
 
-
 @app.route('/artigo/<string:id>')
 def artigo(id):
-    #article = fetchArticles(int(id))
     article = fetchArticles(id)
-    #print(article)
     return render_template('artigo.html', data=article)
+
+
+@app.route('/artigo/<string:id>/remove')
+def artigoRemove(id):
+    error = None
+    removeArticles(id)
+    print('The article id %s was removed' % id)
+    return redirect('/artigos')
+
+    #article = fetchArticles(id)
+    #return render_template('artigo.html', data=article)
+
 
 
 # Teste para verificar parametros enviados por POST
@@ -113,6 +122,15 @@ def insertArticles(title, text):
     cur = mysql.connection.cursor()
     sql_str = "INSERT INTO artigos VALUES ( %i, '%s', '%s', %i, '%s')"
     params = (0, title, text, 1, '2017-11-22')
+    print(sql_str % params)
     cur.execute(sql_str % params)
+    mysql.connection.commit()
+    cur.close()
+
+def removeArticles(id):
+    cur = mysql.connection.cursor()
+    sql_str = "DELETE FROM artigos WHERE id = %s"
+    print(sql_str % id)
+    cur.execute(sql_str % id)
     mysql.connection.commit()
     cur.close()

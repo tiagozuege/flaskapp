@@ -5,6 +5,7 @@
     <ul class="list-group">
         {% for i in data %}
         <li class="list-group-item"><a href="/artigo/{{i.id}}">{{i.titulo}}</a></li>
+        <a class="btn btn-sm btn-default" href="/artigo/{{i.id}}/remove" role="button">Excluir</a>
         {% endfor %}
     </ul>
 
