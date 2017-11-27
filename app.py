@@ -1,6 +1,7 @@
 from flask import Flask, redirect, render_template, request
 from flask_mysqldb import MySQL
 #from dataset import getData, getArtigos
+from datetime import date
 import time 
 
 # data = getData()
@@ -118,14 +119,23 @@ def fetchArticles(id):
     return data
 
 def insertArticles(title, text):
-    current_date = time.strftime('%x')
+
+    # Get current time before insert
+    d = time.strftime('%d')
+    m = time.strftime('%m')
+    y = time.strftime('%Y')
+    dt = y+'-'+m+'-'+d
+    
+    # Start sql transaction
     cur = mysql.connection.cursor()
     sql_str = "INSERT INTO artigos VALUES ( %i, '%s', '%s', %i, '%s')"
-    params = (0, title, text, 1, '2017-11-22')
+    params = (0, title, text, 1, dt)
     print(sql_str % params)
     cur.execute(sql_str % params)
     mysql.connection.commit()
     cur.close()
+
+    # End sql transaction
 
 def removeArticles(id):
     cur = mysql.connection.cursor()
