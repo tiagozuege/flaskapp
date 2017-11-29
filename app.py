@@ -63,11 +63,15 @@ def login():
 
 @app.route('/artigos', methods=['POST', 'GET'])
 def artigos():
+    if request.args.get('update') != '0':
+        print('***DEBUG: GET request with update arg')
+        update_id = request.args.get('update')
+        update_article = fetchArticles(update_id)
     if request.method == 'POST':
-        print('POST comming from /artigos')
+        print('***DEBUG: POST comming from /artigos')
         insertArticles(request.form['titulo'], request.form['texto'])
     articles = fetchArticles('0')
-    return render_template('artigos.html', data=articles)
+    return render_template('artigos.html', data=articles, update=update_article)
 
 
 @app.route('/artigo/<string:id>')
@@ -83,9 +87,21 @@ def artigoRemove(id):
     print('The article id %s was removed' % id)
     return redirect('/artigos')
 
-    #article = fetchArticles(id)
-    #return render_template('artigo.html', data=article)
 
+# @app.route('/artigo/<string:id>/update')
+# def artigoUpdate(id, methods=['POST', 'GET']):
+#     print('***DEBUG: entrou em artigoUpdate()')
+#     error = None
+#     if request.method == 'POST':
+#         print('***DEBUG: retornou de updateArticles()')
+#         text = request.form['texto']
+#         updateArticles(id, text)
+#         return redirect('/artigos')
+#     else:
+#         article = fetchArticles(id)
+#         return render_template('artigo.html', data=article)
+    
+    
 
 
 # Teste para verificar parametros enviados por POST
@@ -97,23 +113,13 @@ def teste():
         check_paramaters(request.form['teste'])
     return render_template('teste.html', data=data)
 
-# Teste Mysql
-
-@app.route('/teste-mysql')
-def teste2():
-    cur = mysql.connection.cursor()
-    cur.execute('''SELECT * FROM usuarios''')
-    data = cur.fetchall()
-    cur.close()
-    #return data
-    return render_template('teste-mysql.html', data=data)
 
 def fetchArticles(id):
     cur = mysql.connection.cursor()
     if id == '0':
         cur.execute('''SELECT * FROM artigos''')
     else:
-        cur.execute('''SELECT * FROM artigos WHERE id = %s''', id)
+        cur.execute("SELECT * FROM artigos WHERE id = '%s'" % id)
     data = cur.fetchall()
     cur.close()
     return data
@@ -134,7 +140,6 @@ def insertArticles(title, text):
     cur.execute(sql_str % params)
     mysql.connection.commit()
     cur.close()
-
     # End sql transaction
 
 def removeArticles(id):
@@ -142,5 +147,15 @@ def removeArticles(id):
     sql_str = "DELETE FROM artigos WHERE id = %s"
     print(sql_str % id)
     cur.execute(sql_str % id)
+    mysql.connection.commit()
+    cur.close()
+
+def updateArticles(id, text):
+    print('***DEBUG: entrou em updateArticles()')
+    cur = mysql.connection.cursor()
+    sql_str = "UPDATE artigos SET texto = '%s' WHERE id = %s"
+    params = (text, id)
+    print(sql_str % params)
+    cur.execute(sql_str % params)
     mysql.connection.commit()
     cur.close()
