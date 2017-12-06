@@ -14,10 +14,17 @@
 
     <form action="/artigos" method="post">
         <div class="input-group input-group-md">
+            {% if update %}
             {% for i in update %}
-            <input name="titulo" type="text" class="form-control" placeholder="Título" value="{{i.titulo}}" required>
-            <input name="texto" type="text" class="form-control" placeholder="Texto" value="{{i.texto}}" required>
+                <input name="id" type="hidden" class="form-control" placeholder="Título" value="{{i.id}}">
+                <input name="titulo" type="text" class="form-control" placeholder="Título" value="{{i.titulo}}" required>
+                <input name="texto" type="text" class="form-control" placeholder="Texto" value="{{i.texto}}" required>
             {% endfor %}
+            {% else %}
+                <input name="id" type="hidden" class="form-control">
+                <input name="titulo" type="text" class="form-control" placeholder="Título" required>
+                <input name="texto" type="text" class="form-control" placeholder="Texto" required>
+            {% endif %}
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
     </form>

@@ -64,12 +64,16 @@ def login():
 @app.route('/artigos', methods=['POST', 'GET'])
 def artigos():
     if request.args.get('update') != '0':
-        print('***DEBUG: GET request with update arg')
         update_id = request.args.get('update')
         update_article = fetchArticles(update_id)
     if request.method == 'POST':
-        print('***DEBUG: POST comming from /artigos')
-        insertArticles(request.form['titulo'], request.form['texto'])
+        id = request.form['id']
+        title = request.form['titulo']
+        text = request.form['texto']
+        if id == '':
+            insertArticles(request.form['titulo'], request.form['texto'])
+        else:
+            updateArticles(id, title, text)
     articles = fetchArticles('0')
     return render_template('artigos.html', data=articles, update=update_article)
 
@@ -86,20 +90,6 @@ def artigoRemove(id):
     removeArticles(id)
     print('The article id %s was removed' % id)
     return redirect('/artigos')
-
-
-# @app.route('/artigo/<string:id>/update')
-# def artigoUpdate(id, methods=['POST', 'GET']):
-#     print('***DEBUG: entrou em artigoUpdate()')
-#     error = None
-#     if request.method == 'POST':
-#         print('***DEBUG: retornou de updateArticles()')
-#         text = request.form['texto']
-#         updateArticles(id, text)
-#         return redirect('/artigos')
-#     else:
-#         article = fetchArticles(id)
-#         return render_template('artigo.html', data=article)
     
     
 
@@ -150,11 +140,10 @@ def removeArticles(id):
     mysql.connection.commit()
     cur.close()
 
-def updateArticles(id, text):
-    print('***DEBUG: entrou em updateArticles()')
+def updateArticles(id, title, text):
     cur = mysql.connection.cursor()
-    sql_str = "UPDATE artigos SET texto = '%s' WHERE id = %s"
-    params = (text, id)
+    sql_str = "UPDATE artigos SET titulo = '%s', texto = '%s' WHERE id = %s"
+    params = (title, text, id)
     print(sql_str % params)
     cur.execute(sql_str % params)
     mysql.connection.commit()
