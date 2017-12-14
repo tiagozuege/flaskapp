@@ -1,11 +1,8 @@
 from flask import Flask, redirect, render_template, request
 from flask_mysqldb import MySQL
-#from dataset import getData, getArtigos
 from datetime import date
 import time 
 
-# data = getData()
-#articles = getArtigos()
 
 app = Flask(__name__)
 
@@ -31,16 +28,6 @@ def checkLogin(param, param2):
         print('Login recusado! Cheque os seus dados.')
         ok = False
     return ok
-
-
-
-# Teste para verificar parametros de request
-
-def check_paramaters(parameters):
-    if parameters == 'ok':
-        print('yes, the parameter its correct!')
-    else:
-        print('oh no, invalid parameter!')
 
 
 # Rotas
@@ -91,18 +78,6 @@ def artigoRemove(id):
     print('The article id %s was removed' % id)
     return redirect('/artigos')
     
-    
-
-
-# Teste para verificar parametros enviados por POST
-@app.route('/teste', methods=['POST', 'GET'])
-def teste():
-    if request.method == 'POST':
-        print('Here was a post')
-        print(request.form['teste'])                    #Imprime os dados que vieram pelo POST
-        check_paramaters(request.form['teste'])
-    return render_template('teste.html', data=data)
-
 
 def fetchArticles(id):
     cur = mysql.connection.cursor()
@@ -113,6 +88,7 @@ def fetchArticles(id):
     data = cur.fetchall()
     cur.close()
     return data
+
 
 def insertArticles(title, text):
 
