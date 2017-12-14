@@ -77,6 +77,18 @@ def artigoRemove(id):
     removeArticles(id)
     print('The article id %s was removed' % id)
     return redirect('/artigos')
+
+@app.route('/contato', methods=['POST', 'GET'])
+def contato():
+    msg = None
+    if request.method == 'POST':
+        print("***DEBUG: POST method coming to /contato")
+        print(request.form['nome'])
+        print(request.form['email'])
+        print(request.form['mensagem'])
+        msg = "Você acabou de enviar a sua mensagem! Em breve iremos lhe responder!"
+        # return redirect('/contato')
+    return render_template('contato.html', msg=msg)
     
 
 def fetchArticles(id):
