@@ -1,7 +1,9 @@
 from flask import Flask, redirect, render_template, request
 from flask_mysqldb import MySQL
 from datetime import date
-import time 
+from models.contato import Contato
+from daos.contatodao import ContatoDAO
+import time
 
 
 app = Flask(__name__)
@@ -83,11 +85,15 @@ def contato():
     msg = None
     if request.method == 'POST':
         print("***DEBUG: POST method coming to /contato")
-        print(request.form['nome'])
-        print(request.form['email'])
-        print(request.form['mensagem'])
-        msg = "Você acabou de enviar a sua mensagem! Em breve iremos lhe responder!"
-        # return redirect('/contato')
+        nome = request.form['nome']
+        email = request.form['email']
+        msgm = request.form['mensagem']
+        msg = "Você acabou de enviar a sua mensagem. Em breve iremos lhe responder."
+        contato = Contato(nome,email,msgm)
+        contatoDao = ContatoDAO()
+        ret = contatoDao.insert(contato)
+        if ret == -1:
+            msg = "Ops! Aconteceu um problema. Por favor tente novamente. Se o erro persistir, entre em conato com o suporte técnico."
     return render_template('contato.html', msg=msg)
     
 
