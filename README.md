@@ -11,7 +11,9 @@ com suporte a persistência de dados utilizando MySQL.
 
 - `pip install flask` (ignore se já estiver instalado)
 - `pip install flask_mysqldb`
-- `apt-get install mysql-server` (opcional)
+- `sudo apt-get install mysql-server`       (opcional)
+- `sudo apt-get install mysql-client`       (opcional)
+- `sudo apt-get install libmysqlclient-dev` (opcional)
 
 **Configuração da aplicação:**
 
