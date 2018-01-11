@@ -1,5 +1,7 @@
 from flask import Flask, redirect, render_template, request
 from flask_mysqldb import MySQL
+from flask_mail import Mail
+from flask_mail import Message
 from datetime import date
 from models.contato import Contato
 from daos.contatodao import ContatoDAO
@@ -8,6 +10,7 @@ import time
 
 app = Flask(__name__)
 
+
 # Config MySQL
 
 app.config['MYSQL_HOST'] = 'localhost'
@@ -15,6 +18,14 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'mysql'
 app.config['MYSQL_DB'] = 'flaskapp'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+
+# Flask Mail config
+
+app.config['MAIL_SERVER'] = '10.0.0.4'
+
+# Init Flask-Mail
+
+mail = Mail(app)
 
 # Init MySQL
 
@@ -30,6 +41,13 @@ def checkLogin(param, param2):
         print('Login recusado! Cheque os seus dados.')
         ok = False
     return ok
+
+def sendMail(msg):
+    message = Message("Contato",
+                      sender="flaskapp@mail.yourdomain.com",
+                      recipients=["tiago.zuege@gmail.com"])
+    message.body = msg
+    mail.send(message)
 
 
 # Rotas
@@ -94,6 +112,7 @@ def contato():
         ret = contatoDao.insert(contato)
         if ret == -1:
             msg = "Ops! Aconteceu um problema. Por favor tente novamente. Se o erro persistir, entre em conato com o suporte técnico."
+        sendMail(msgm)
     return render_template('contato.html', msg=msg)
     
 
