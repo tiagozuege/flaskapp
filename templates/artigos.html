@@ -2,11 +2,20 @@
 
 {% block body %}
 
+<h1>Artigos</h1>
+<br>
+<h3>Acesse o artigo desejado:</h3>
+
     <ul class="list-group">
         {% for i in data %}
         <li class="list-group-item"><a href="/artigo/{{i.id}}">{{i.titulo}}</a></li>
-        <a class="btn btn-sm btn-default" href="/artigo/{{i.id}}/remove" role="button">Excluir</a>
-        <a class="btn btn-sm btn-default" href="/artigos?update={{i.id}}" role="button">Atualizar</a>
+        <a class="btn btn-sm btn-default" href="/artigo/{{i.id}}/remove" role="button">
+            <span class="glyphicon glyphicon-remove"></span> Excluir
+        </a>
+        <a class="btn btn-sm btn-default" href="/artigos?update={{i.id}}" role="button">
+            <span class="glyphicon glyphicon-pencil"></span> Atualizar
+        </a>
+
         <!-- <a class="btn btn-sm btn-default" href="/artigo/{{i.id}}/update" role="button">Atualizar</a> -->
         {% endfor %}
     </ul>
@@ -26,7 +35,9 @@
                 <input name="texto" type="text" class="form-control" placeholder="Texto" required>
             {% endif %}
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default">
+                <span class="glyphicon glyphicon-floppy-disk"></span> Gravar
+        </button>
     </form>
     
 
